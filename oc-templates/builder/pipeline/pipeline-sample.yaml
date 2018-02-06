@@ -1,16 +1,15 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: axa-de-openpaas-buildconfig-pipeline-template
+  name: buildconfig-pipeline-template
   annotations:
     iconClass: icon-jenkins
-    description: AXA BuildConfig template. Erstellt eine BuildConfig fuer eine Sample Pipeline
-    tags: build,buildconfig,axa,docker
+    description: BuildConfig template. Erstellt eine BuildConfig fuer eine Sample Pipeline
+    tags: build,buildconfig,docker
     openshift.io/display-name: Openpaas DE BuildConfig Pipeline
 labels:
-  template: axa-de-openpaas-buildconfig-pipeline-template
-  axa: axa-de
-  createdBy: axa-de-openpaas-buildconfig-pipeline-template
+  template: buildconfig-pipeline-template
+  createdBy: buildconfig-pipeline-template
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
@@ -24,7 +23,7 @@ parameters:
   description: The source URL for the application
   displayName: Source URL
   required: true
-  value: https://github.axa.com/de-continuousx/openshift-image-jenkins-de.git
+  value: https://github.xxx.com/de-continuousx/openshift-image-jenkins-de.git
 - name: GIT_SOURCE_REF
   description: The source Ref for the application
   displayName: Source Ref
