@@ -23,8 +23,8 @@ try{
     }
 } catch (Exception e) {
     // Notify
-    echo "send error mail to mike.schmid2@axa.de"
-    mail subject: "Build failed with ${e.message}", to: "mike.schmid2@axa.de", body: "Job failed: ${env.BUILD_URL} \n\n${e.stackTrace}"
+    echo "send error mail to me"
+    mail subject: "Build failed with ${e.message}", to: "test@test.de", body: "Job failed: ${env.BUILD_URL} \n\n${e.stackTrace}"
     throw e;
 }
 
