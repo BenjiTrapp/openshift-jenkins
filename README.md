@@ -23,11 +23,11 @@ Inhalte sind mit Kommentaren gekenntzeichnet. \
 Beispiel:
 ```
 ############################################
-#  Anpassungen / axa-de / START
+#  Anpassungen / own / START
 ############################################
 ...
 ############################################
-#  Anpassungen / axa-de / ENDE
+#  Anpassungen / own / ENDE
 ############################################
 ```
 ### Anpassung Maven
@@ -36,11 +36,11 @@ Maven starten zu können. Das Starten der Slaves ist derzeit nicht performant. \
 Sobald eine performante Lösung mit den Slaves bekannt ist, sollen auf dem Master keine spezifischen Installationen 
 bereitgestellt werden.
 
-Konfiguration von Maven im Jenkins kann mit `tmp/axa-resources/jenkins/hudson.task.Maven.xml` erfolgen.
+Konfiguration von Maven im Jenkins kann mit `tmp/resources/jenkins/hudson.task.Maven.xml` erfolgen.
 
-Die Installation von Maven erfolgt mit `tmp/axa-resources/jenkins/setup-axa-jenkins.sh`, welches im Dockerfile gestartet 
+Die Installation von Maven erfolgt mit `tmp/resources/jenkins/setup-jenkins.sh`, welches im Dockerfile gestartet 
 wird. 
-### Anbindung an Nexus DE
+### Anbindung an Nexus
 Damit Maven mit dem Nexus DE kommunizieren kann ist eine Konfiguration in der settings.xml in Maven notwendig.
 Konfiguriert sind die Repositories, die erreicht werden sollen. Die Konfiguration zum Proxy sollte dynamisch mit dem Start
 des Jenkins erfolgen und in die settings.xml geschrieben werden. Infos zu Host und Port des Proxy soll über Umgebungsvariablen 
@@ -63,7 +63,7 @@ Der Builder baut ein Docker Image und legt es im ImageStreamTag ab
 ## Pipeline
 Für den Bau des Jenkins soll ein eigenes JENKINSFILE entwickelt werden, welches den Build und die Tests steuert und 
 Ergebnisse in den MetricStore wirft. \
-Als Basis gelten die Pipelines, die über das Projekt `https://github.axa.com/BuildPipelineGilde/buildePipeline` 
+Als Basis gelten die Pipelines, die über das Projekt `https://github.xxx.com/BuildPipelineGilde/buildePipeline` 
 bereitgestellt werden. \
 * Beim Build soll der Builder angestoßen werden.
 * Bei Laufzeittests soll das Deployment genutzt werden. 
@@ -71,5 +71,5 @@ bereitgestellt werden. \
 Für den zu bauenden Jenkins wird ein eigenes Deployment geliefert, welche später bei dynamischen Test zum
 Container oder dem Jenkins aus einer Pipeline heraus genutzt werden soll. \
 Dieses Deployment ist derzeit die Basis bzw. die Entwicklung des Deployments für den Jenkins, welches über
-`https://github.axa.com/BuildPipelineGilde/buildePipeline` anderen Teams in ihren openShift Projekten genutzt werden 
+`https://github.xxx.com/BuildPipelineGilde/buildePipeline` anderen Teams in ihren openShift Projekten genutzt werden 
 soll. Hier können wir noch mal überlegen ob es Sinn macht, oder ob man dies auch anders angehen kann. 
