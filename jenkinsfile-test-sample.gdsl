@@ -8,7 +8,7 @@ node {
     stage('Checkout') {
         sh "set"
         sh "env"
-        git url: "https://github.axa.com/de-continuousx/java-example.git", branch: "master", credentialsId: "${PROJECT_NAME}-github-de-technical-secret"
+        git url: "https://github.xxx.com/de-continuousx/java-example.git", branch: "master", credentialsId: "${PROJECT_NAME}-github-de-technical-secret"
     }
     stage('Compile') {
         echo "Maven Compile"
