@@ -1,0 +1,70 @@
+node {
+    def mvnHome = tool 'Maven3.5-LATEST'
+
+    parameters {
+        booleanParam(defaultValue: true, description: '', name: 'userFlag')
+    }
+
+    stage('Checkout') {
+        sh "set"
+        sh "env"
+        git url: "https://github.axa.com/de-continuousx/java-example.git", branch: "master", credentialsId: "${PROJECT_NAME}-github-de-technical-secret"
+    }
+    stage('Compile') {
+        echo "Maven Compile"
+        sh "'${mvnHome}/bin/mvn' -v"
+        sh "'${mvnHome}/bin/mvn' clean compile"
+    }
+    stage('Unit-Tests') {
+        echo "Unit Tests"
+        sh "'${mvnHome}/bin/mvn' test"
+        sh "'${mvnHome}/bin/mvn' surefire-report:report-only"
+    }
+    stage ('ATDD-Unit-Tests') {
+        try {
+            //sh "'${mvnHome}/bin/mvn' test -PATDD-Unit-Tests"
+            //sh "'${mvnHome}/bin/mvn' net.masterthought:maven-cucumber-reporting:generate"
+            echo "ATDD durchgeführt"
+        } catch (err) {
+            echo "Caught: ${err}"
+            currentBuild.result = 'FAILURE'
+        }
+        //step <object of type net.masterthought.jenkins.CucumberReportPublisher>
+    }
+
+    stage ('CodingStandards Check') {
+        echo "Prüfe Codingstandards"
+        echo "Checkstyle"
+        echo "Checkstyle - load Dependencies"
+        sh "'${mvnHome}/bin/mvn' dependency:copy -Pcheckstyle-analysis"
+        echo "Checkstyle - Check"
+        sh "'${mvnHome}/bin/mvn' checkstyle:check -Pcheckstyle-analysis -Dcheckstyle.failOnViolation=false"
+        echo "Checkstyle - Report"
+        sh "'${mvnHome}/bin/mvn' checkstyle:checkstyle -Pcheckstyle-analysis"
+    }
+
+    stage ('OWASP Dependency Check') {
+        echo "Prüfe Dependencies"
+    }
+
+    stage ('Findbugs Check') {
+        echo "Findbugs prüft"
+    }
+
+    stage ('FindSecBugs Check') {
+        echo "FindSECbugs prüft"
+    }
+
+    stage("Create Artifact") {
+        //stash name:"war", includes:"target/ROOT.war"
+    }
+    stage('Store Artifact to Nexus') {
+        echo 'Artifact sussessfully stored'
+    }
+    stage("Collect Metrics") {
+        echo "Metrics collected and processed"
+    }
+    stage('Push Metrics') {
+        echo 'Metrics have been successfully pushed to Prometheus'
+    }
+}

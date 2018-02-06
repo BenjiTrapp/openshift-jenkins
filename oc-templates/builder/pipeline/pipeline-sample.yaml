@@ -1,0 +1,59 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: axa-de-openpaas-buildconfig-pipeline-template
+  annotations:
+    iconClass: icon-jenkins
+    description: AXA BuildConfig template. Erstellt eine BuildConfig fuer eine Sample Pipeline
+    tags: build,buildconfig,axa,docker
+    openshift.io/display-name: Openpaas DE BuildConfig Pipeline
+labels:
+  template: axa-de-openpaas-buildconfig-pipeline-template
+  axa: axa-de
+  createdBy: axa-de-openpaas-buildconfig-pipeline-template
+parameters:
+- name: APPLICATION_NAME
+  displayName: Application Name
+  required: true
+  value: jenkins-de
+- name: JENKINS_FILE
+  displayName: Jenkinsfile
+  required: true
+  value: jenkinsfile-test-sample.gdsl
+- name: GIT_SOURCE_URL
+  description: The source URL for the application
+  displayName: Source URL
+  required: true
+  value: https://github.axa.com/de-continuousx/openshift-image-jenkins-de.git
+- name: GIT_SOURCE_REF
+  description: The source Ref for the application
+  displayName: Source Ref
+  required: true
+  value: dev
+- name: GIT_SECRET_NAME
+  displayName: GIT User Name
+  required: true
+- name: SVN_SECRET_NAME
+  displayName: SVN User Name
+  required: true
+objects:
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: '${APPLICATION_NAME}-pipeline'
+    creationTimestamp:
+    labels:
+      app: '${APPLICATION_NAME}'
+      name: '${APPLICATION_NAME}'
+  spec:
+    source:
+      type: Git
+      git:
+        uri: ${GIT_SOURCE_URL}
+        ref: ${GIT_SOURCE_REF}
+      sourceSecret:
+        name: ${GIT_SECRET_NAME}
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: '${JENKINS_FILE}'
